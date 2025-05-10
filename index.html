@@ -114,32 +114,32 @@
             
             <div class="form-group">
                 <label for="focusAegBianco">AEG BIANCO:</label>
-                <input type="text" id="focusAegBianco" name="focusAegBianco" required>
+                <input type="text" id="focusAegBianco" name="focusAegBianco">
             </div>
             
             <div class="form-group">
                 <label for="focusFuoriGriglia">FUORI GRIGLIA:</label>
-                <input type="text" id="focusFuoriGriglia" name="focusFuoriGriglia" required>
+                <input type="text" id="focusFuoriGriglia" name="focusFuoriGriglia">
             </div>
             
             <div class="form-group">
                 <label for="focusEkos">EKOS:</label>
-                <input type="text" id="focusEkos" name="focusEkos" required>
+                <input type="text" id="focusEkos" name="focusEkos">
             </div>
             
             <div class="form-group">
                 <label for="focusSchuko">SCHUKO:</label>
-                <input type="text" id="focusSchuko" name="focusSchuko" required>
+                <input type="text" id="focusSchuko" name="focusSchuko">
             </div>
             
             <div class="form-group">
                 <label for="focusAnticalcare">ANTICALCARE:</label>
-                <input type="text" id="focusAnticalcare" name="focusAnticalcare" required>
+                <input type="text" id="focusAnticalcare" name="focusAnticalcare">
             </div>
             
             <div class="form-group">
                 <label for="focusKitGiunzione">KIT GIUNZIONE:</label>
-                <input type="text" id="focusKitGiunzione" name="focusKitGiunzione" required>
+                <input type="text" id="focusKitGiunzione" name="focusKitGiunzione">
             </div>
             
             <button type="submit">Invia Report</button>
@@ -153,21 +153,43 @@
     <script>
         function aggiornaMail() {
             const selezione = document.getElementById("puntoVendita").value;
+            if (!selezione) return; // Non procedere se non è stato selezionato un punto vendita
+            
             const reparto = document.getElementById("repartoBianco");
             reparto.value = selezione;
             
             // Crea l'oggetto mailto con tutte le informazioni necessarie
-            let mailto = "mailto:d.pavoni@dml-italia.com?subject=" + encodeURIComponent("Report Punto Vendita " + selezione);
-            mailto += "&body=" + encodeURIComponent("REPARTO BIANCO: " + selezione + "\n\n");
-            mailto += encodeURIComponent("BIANCO DELTA MESE FATT: " + document.getElementById("biancoDeltaMeseFatt").value + "\n");
-            mailto += encodeURIComponent("DELTA MESE PR. MEDIO: " + document.getElementById("biancoDeltaMesePrMedio").value + "\n\n");
-            mailto += encodeURIComponent("CLIMA DELTA MESE FATT: " + document.getElementById("climaDeltaMeseFatt").value + "\n\n");
-            mailto += encodeURIComponent("AEG BIANCO: " + document.getElementById("focusAegBianco").value + "\n");
-            mailto += encodeURIComponent("FUORI GRIGLIA: " + document.getElementById("focusFuoriGriglia").value + "\n");
-            mailto += encodeURIComponent("EKOS: " + document.getElementById("focusEkos").value + "\n");
-            mailto += encodeURIComponent("SCHUKO: " + document.getElementById("focusSchuko").value + "\n");
-            mailto += encodeURIComponent("ANTICALCARE: " + document.getElementById("focusAnticalcare").value + "\n");
-            mailto += encodeURIComponent("KIT GIUNZIONE: " + document.getElementById("focusKitGiunzione").value + "\n\n");
+            let mailto = "mailto:d.pavoni@dml-italia.com";
+            
+            // Aggiungi l'oggetto
+            mailto += "?subject=" + encodeURIComponent("Report Punto Vendita " + selezione);
+            
+            // Inizia il corpo dell'email
+            let body = "REPARTO BIANCO: " + selezione + "\n\n";
+            body += "BIANCO DELTA MESE FATT: " + document.getElementById("biancoDeltaMeseFatt").value + "\n";
+            body += "DELTA MESE PR. MEDIO: " + document.getElementById("biancoDeltaMesePrMedio").value + "\n\n";
+            body += "CLIMA DELTA MESE FATT: " + document.getElementById("climaDeltaMeseFatt").value + "\n\n";
+            
+            // Aggiungi i campi opzionali solo se hanno un valore
+            const focusAegBianco = document.getElementById("focusAegBianco").value;
+            if (focusAegBianco) body += "AEG BIANCO: " + focusAegBianco + "\n";
+            
+            const focusFuoriGriglia = document.getElementById("focusFuoriGriglia").value;
+            if (focusFuoriGriglia) body += "FUORI GRIGLIA: " + focusFuoriGriglia + "\n";
+            
+            const focusEkos = document.getElementById("focusEkos").value;
+            if (focusEkos) body += "EKOS: " + focusEkos + "\n";
+            
+            const focusSchuko = document.getElementById("focusSchuko").value;
+            if (focusSchuko) body += "SCHUKO: " + focusSchuko + "\n";
+            
+            const focusAnticalcare = document.getElementById("focusAnticalcare").value;
+            if (focusAnticalcare) body += "ANTICALCARE: " + focusAnticalcare + "\n";
+            
+            const focusKitGiunzione = document.getElementById("focusKitGiunzione").value;
+            if (focusKitGiunzione) body += "KIT GIUNZIONE: " + focusKitGiunzione + "\n";
+            
+            mailto += "&body=" + encodeURIComponent(body);
             
             // Aggiungi la mail del negozio selezionato come destinatario in CC
             const emailMap = {
@@ -182,6 +204,8 @@
             
             // Imposta il link mailto come destinazione del bottone
             document.getElementById("reportForm").action = mailto;
+            
+            console.log("Mailto URL creato:", mailto); // Per debug
         }
         
         // Aggiungi validazione al form prima dell'invio
@@ -193,8 +217,28 @@
                 return false;
             }
             
+            // Verifica che i campi obbligatori siano compilati
+            const biancoDeltaMeseFatt = document.getElementById("biancoDeltaMeseFatt").value;
+            const biancoDeltaMesePrMedio = document.getElementById("biancoDeltaMesePrMedio").value;
+            const climaDeltaMeseFatt = document.getElementById("climaDeltaMeseFatt").value;
+            
+            if (!biancoDeltaMeseFatt || !biancoDeltaMesePrMedio || !climaDeltaMeseFatt) {
+                alert("Compila i primi tre campi obbligatori: BIANCO DELTA MESE FATT, DELTA MESE PR. MEDIO e CLIMA DELTA MESE FATT.");
+                event.preventDefault();
+                return false;
+            }
+            
             // Aggiorna l'email una volta in più prima dell'invio per assicurarsi che tutti i campi siano inclusi
             aggiornaMail();
+        });
+        
+        // Inizializza all'avvio della pagina
+        window.addEventListener("DOMContentLoaded", function() {
+            // Verifica se c'è già una selezione
+            const puntoVendita = document.getElementById("puntoVendita");
+            if (puntoVendita.value) {
+                aggiornaMail();
+            }
         });
     </script>
 </body>
