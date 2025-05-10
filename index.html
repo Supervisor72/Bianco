@@ -1,208 +1,168 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Punti Vendita</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            background-color: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #0066cc;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        select, input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        select {
-            cursor: pointer;
-        }
-        .section-title {
-            background-color: #f0f7ff;
-            padding: 10px;
-            margin: 20px 0 15px 0;
-            border-left: 4px solid #0066cc;
-            font-weight: bold;
-        }
-        button {
-            background-color: #0066cc;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            display: block;
-            margin: 30px auto 0;
-            width: 50%;
-        }
-        button:hover {
-            background-color: #0055b3;
-        }
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #666;
-            font-size: 14px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Report Punto Vendita</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background-color: #fff;
+      padding: 25px;
+      max-width: 800px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #0066cc;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+    .section-title {
+      margin-top: 20px;
+      font-weight: bold;
+      border-left: 4px solid #0066cc;
+      padding-left: 10px;
+      background-color: #f0f7ff;
+    }
+    button {
+      margin-top: 30px;
+      width: 100%;
+      padding: 12px;
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0055b3;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Report Punti Vendita</h1>
-        
-        <form id="reportForm" method="post" onsubmit="return preparaMailto()">
-            <div class="form-group">
-                <label for="puntoVendita">Punto Vendita:</label>
-                <select id="puntoVendita" name="puntoVendita" onchange="aggiornaMail()" required>
-                    <option value="" selected disabled>Seleziona un punto vendita</option>
-                    <option value="FANO">FANO</option>
-                    <option value="MONSANO">MONSANO</option>
-                    <option value="OSIMO">OSIMO</option>
-                    <option value="MACERATA">MACERATA</option>
-                    <option value="CIVITANOVA">CIVITANOVA</option>
-                    <option value="PESARO">PESARO</option>
-                </select>
-            </div>
-            
-            <div class="section-title">Reparto Bianco</div>
-            
-            <div class="form-group">
-                <label for="biancoDeltaMeseFatt">BIANCO DELTA MESE FATT:</label>
-                <input type="text" id="biancoDeltaMeseFatt" name="biancoDeltaMeseFatt" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="biancoDeltaMesePrMedio">DELTA MESE PR. MEDIO:</label>
-                <input type="text" id="biancoDeltaMesePrMedio" name="biancoDeltaMesePrMedio" required>
-            </div>
-            
-            <div class="section-title">Climatizzazione</div>
-            
-            <div class="form-group">
-                <label for="climaDeltaMeseFatt">CLIMA DELTA MESE FATT:</label>
-                <input type="text" id="climaDeltaMeseFatt" name="climaDeltaMeseFatt" required>
-            </div>
-            
-            <div class="section-title">Focus Prodotti</div>
-            
-            <div class="form-group">
-                <label for="focusAegBianco">AEG BIANCO:</label>
-                <input type="text" id="focusAegBianco" name="focusAegBianco">
-            </div>
-            
-            <div class="form-group">
-                <label for="focusFuoriGriglia">FUORI GRIGLIA:</label>
-                <input type="text" id="focusFuoriGriglia" name="focusFuoriGriglia">
-            </div>
-            
-            <div class="form-group">
-                <label for="focusEkos">EKOS:</label>
-                <input type="text" id="focusEkos" name="focusEkos">
-            </div>
-            
-            <div class="form-group">
-                <label for="focusSchuko">SCHUKO:</label>
-                <input type="text" id="focusSchuko" name="focusSchuko">
-            </div>
-            
-            <div class="form-group">
-                <label for="focusAnticalcare">ANTICALCARE:</label>
-                <input type="text" id="focusAnticalcare" name="focusAnticalcare">
-            </div>
-            
-            <div class="form-group">
-                <label for="focusKitGiunzione">KIT GIUNZIONE:</label>
-                <input type="text" id="focusKitGiunzione" name="focusKitGiunzione">
-            </div>
-            
-            <button type="submit">Invia Report</button>
-        </form>
-    </div>
-    
-    <footer>
-        &copy; 2025 DML Italia - Report Punti Vendita
-    </footer>
+  <div class="container">
+    <h1>Report Punto Vendita</h1>
+    <form id="reportForm">
+      <div class="form-group">
+        <label for="puntoVendita">Punto Vendita:</label>
+        <select id="puntoVendita" required>
+          <option value="" disabled selected>Seleziona un punto vendita</option>
+          <option value="FANO">FANO</option>
+          <option value="MONSANO">MONSANO</option>
+          <option value="OSIMO">OSIMO</option>
+          <option value="MACERATA">MACERATA</option>
+          <option value="CIVITANOVA">CIVITANOVA</option>
+          <option value="PESARO">PESARO</option>
+        </select>
+      </div>
 
-    <script>
-        // Funzione per aggiornare l'email destinazione in base al punto vendita selezionato
-        function aggiornaMail() {
-            const puntoVendita = document.getElementById("puntoVendita").value;
-            const emailMap = {
-                FANO: "trony.fano@dml-italia.com",
-                MONSANO: "trony.monsano@dml-italia.com",
-                OSIMO: "trony.osimo@dml-italia.com",
-                MACERATA: "trony.macerata@dml-italia.com",
-                CIVITANOVA: "trony.civitanova@dml-italia.com",
-                PESARO: "trony.pesaro@dml-italia.com"
-            };
-            document.getElementById("reportForm").action = "mailto:" + emailMap[puntoVendita];
-        }
+      <div class="section-title">Reparto Bianco</div>
+      <div class="form-group">
+        <label for="biancoDeltaMeseFatt">BIANCO DELTA MESE FATT (€):</label>
+        <input type="text" id="biancoDeltaMeseFatt" required />
+      </div>
+      <div class="form-group">
+        <label for="biancoDeltaMesePrMedio">DELTA MESE PR. MEDIO (€):</label>
+        <input type="text" id="biancoDeltaMesePrMedio" required />
+      </div>
 
-        // Funzione per preparare il corpo dell'email in modo che sia leggibile
-        function preparaMailto() {
-            const puntoVendita = document.getElementById("puntoVendita").value;
-            const biancoDeltaMeseFatt = document.getElementById("biancoDeltaMeseFatt").value;
-            const biancoDeltaMesePrMedio = document.getElementById("biancoDeltaMesePrMedio").value;
-            const climaDeltaMeseFatt = document.getElementById("climaDeltaMeseFatt").value;
-            const focusAegBianco = document.getElementById("focusAegBianco").value;
-            const focusFuoriGriglia = document.getElementById("focusFuoriGriglia").value;
-            const focusEkos = document.getElementById("focusEkos").value;
-            const focusSchuko = document.getElementById("focusSchuko").value;
-            const focusAnticalcare = document.getElementById("focusAnticalcare").value;
-            const focusKitGiunzione = document.getElementById("focusKitGiunzione").value;
+      <div class="section-title">Climatizzazione</div>
+      <div class="form-group">
+        <label for="climaDeltaMeseFatt">CLIMA DELTA MESE FATT (€):</label>
+        <input type="text" id="climaDeltaMeseFatt" required />
+      </div>
 
-            // Comporre il corpo dell'email con una formattazione semplice e leggibile
-            let emailBody = `
-            Punto Vendita: ${puntoVendita}
+      <div class="section-title">Focus Prodotti</div>
+      <div class="form-group">
+        <label for="focusAegBianco">AEG BIANCO:</label>
+        <input type="text" id="focusAegBianco" />
+      </div>
+      <div class="form-group">
+        <label for="focusFuoriGriglia">FUORI GRIGLIA:</label>
+        <input type="text" id="focusFuoriGriglia" />
+      </div>
+      <div class="form-group">
+        <label for="focusEkos">EKOS:</label>
+        <input type="text" id="focusEkos" />
+      </div>
+      <div class="form-group">
+        <label for="focusSchuko">SCHUKO:</label>
+        <input type="text" id="focusSchuko" />
+      </div>
+      <div class="form-group">
+        <label for="focusAnticalcare">ANTICALCARE:</label>
+        <input type="text" id="focusAnticalcare" />
+      </div>
+      <div class="form-group">
+        <label for="focusKitGiunzione">KIT GIUNZIONE:</label>
+        <input type="text" id="focusKitGiunzione" />
+      </div>
 
-            REPARTO BIANCO:
-            - BIANCO DELTA MESE FATT: €${biancoDeltaMeseFatt}
-            - DELTA MESE PR. MEDIO: €${biancoDeltaMesePrMedio}
+      <button type="submit">Invia Report</button>
+    </form>
+  </div>
 
-            CLIMA:
-            - CLIMA DELTA MESE FATT: €${climaDeltaMeseFatt}
+  <script>
+    const reportForm = document.getElementById("reportForm");
 
-            FOCUS PRODOTTI:
-            - AEG BIANCO: ${focusAegBianco}
-            - FUORI GRIGLIA: ${focusFuoriGriglia}
-            - EKOS: ${focusEkos}
-            - SCHUKO: ${focusSchuko}
-            - ANTICALCARE: ${focusAnticalcare}
-            - KIT GIUNZIONE: ${focusKitGiunzione}`;
+    reportForm.addEventListener("submit", function (event) {
+      event.preventDefault();
 
-            // Creare un link mailto con corpo e oggetto
-            const subject = `Report Punto Vendita ${puntoVendita}`;
-            const mailtoLink = `mailto:d.pavoni@dml-italia.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+      const pv = document.getElementById("puntoVendita").value;
+      const emailCC = {
+        FANO: "trony.fano@dml-italia.com",
+        MONSANO: "trony.monsano@dml-italia.com",
+        OSIMO: "trony.osimo@dml-italia.com",
+        MACERATA: "trony.macerata@dml-italia.com",
+        CIVITANOVA: "trony.civitanova@dml-italia.com",
+        PESARO: "trony.pesaro@dml-italia.com",
+      };
 
-            // Impostare il link mailto come destinazione del form
-            document.getElementById("reportForm").action = mailtoLink;
-            return true;
-        }
-    </script>
+      const body = `
+Punto Vendita: ${pv}
+
+REPARTO BIANCO:
+- BIANCO DELTA MESE FATT: €${document.getElementById("biancoDeltaMeseFatt").value}
+- DELTA MESE PR. MEDIO: €${document.getElementById("biancoDeltaMesePrMedio").value}
+
+CLIMATIZZAZIONE:
+- CLIMA DELTA MESE FATT: €${document.getElementById("climaDeltaMeseFatt").value}
+
+FOCUS PRODOTTI:
+- AEG BIANCO: ${document.getElementById("focusAegBianco").value}
+- FUORI GRIGLIA: ${document.getElementById("focusFuoriGriglia").value}
+- EKOS: ${document.getElementById("focusEkos").value}
+- SCHUKO: ${document.getElementById("focusSchuko").value}
+- ANTICALCARE: ${document.getElementById("focusAnticalcare").value}
+- KIT GIUNZIONE: ${document.getElementById("focusKitGiunzione").value}
+`;
+
+      const mailto = `mailto:d.pavoni@dml-italia.com?cc=${emailCC[pv]}&subject=${encodeURIComponent(
+        "Report Punto Vendita " + pv
+      )}&body=${encodeURIComponent(body)}`;
+
+      window.location.href = mailto;
+    });
+  </script>
 </body>
 </html>
