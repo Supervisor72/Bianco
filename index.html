@@ -1,4 +1,13 @@
-<!DOCTYPE html>
+            // Crea l'oggetto mailto con tutte le informazioni necessarie
+            let mailto = "mailto:d.pavoni@dml-italia.com";
+            
+            // Aggiungi l'oggetto
+            mailto += "?subject=" + encodeURIComponent("Report Punto Vendita " + selezione);
+            
+            // Inizia il corpo dell'email con la formattazione richiesta
+            let body = "REPARTO BIANCO: " + selezione + "\n\n";
+            body += "BIANCO DELTA MESE FATT: " + document.getElementById("biancoDeltaMeseFatt").value + "\n";
+            body += "DELTA<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -164,30 +173,21 @@
             // Aggiungi l'oggetto
             mailto += "?subject=" + encodeURIComponent("Report Punto Vendita " + selezione);
             
-            // Inizia il corpo dell'email
-            let body = "REPARTO BIANCO: " + selezione + "\n\n";
-            body += "BIANCO DELTA MESE FATT: " + document.getElementById("biancoDeltaMeseFatt").value + "\n";
-            body += "DELTA MESE PR. MEDIO: " + document.getElementById("biancoDeltaMesePrMedio").value + "\n\n";
-            body += "CLIMA DELTA MESE FATT: " + document.getElementById("climaDeltaMeseFatt").value + "\n\n";
+            // Inizia il corpo dell'email con la formattazione richiesta
+            let body = "**REPARTO BIANCO " + selezione + "**\n\n";
+            body += "BIANCO DELTA MESE FATT  € " + document.getElementById("biancoDeltaMeseFatt").value + "\n\n";
+            body += "DELTA MESE PR. MEDIO    € " + document.getElementById("biancoDeltaMesePrMedio").value + "\n\n";
+            body += "CLIMA DELTA MESE FATT € " + document.getElementById("climaDeltaMeseFatt").value + "\n\n";
+            body += "FOCUS IERI   :\n\n";
             
-            // Aggiungi i campi opzionali solo se hanno un valore
-            const focusAegBianco = document.getElementById("focusAegBianco").value;
-            if (focusAegBianco) body += "AEG BIANCO: " + focusAegBianco + "\n";
-            
-            const focusFuoriGriglia = document.getElementById("focusFuoriGriglia").value;
-            if (focusFuoriGriglia) body += "FUORI GRIGLIA: " + focusFuoriGriglia + "\n";
-            
-            const focusEkos = document.getElementById("focusEkos").value;
-            if (focusEkos) body += "EKOS: " + focusEkos + "\n";
-            
-            const focusSchuko = document.getElementById("focusSchuko").value;
-            if (focusSchuko) body += "SCHUKO: " + focusSchuko + "\n";
-            
-            const focusAnticalcare = document.getElementById("focusAnticalcare").value;
-            if (focusAnticalcare) body += "ANTICALCARE: " + focusAnticalcare + "\n";
-            
-            const focusKitGiunzione = document.getElementById("focusKitGiunzione").value;
-            if (focusKitGiunzione) body += "KIT GIUNZIONE: " + focusKitGiunzione + "\n";
+            // Aggiungi i campi opzionali sempre (anche vuoti)
+            body += "ASCIUGATRICI \n";
+            body += "AEG BIANCO " + document.getElementById("focusAegBianco").value + "\n";
+            body += "FUORI GRIGLIA " + document.getElementById("focusFuoriGriglia").value + "\n";
+            body += "EKOS " + document.getElementById("focusEkos").value + "\n";
+            body += "SCHUKO " + document.getElementById("focusSchuko").value + "\n";
+            body += "ANTICALCARE " + document.getElementById("focusAnticalcare").value + "\n";
+            body += "KIT GIUNZIONE " + document.getElementById("focusKitGiunzione").value;
             
             mailto += "&body=" + encodeURIComponent(body);
             
