@@ -75,7 +75,7 @@
     <div class="container">
         <h1>Report Punti Vendita</h1>
         
-        <form id="reportForm" method="post">
+        <form id="reportForm" method="post" onsubmit="return preparaMailto()">
             <div class="form-group">
                 <label for="puntoVendita">Punto Vendita:</label>
                 <select id="puntoVendita" name="puntoVendita" onchange="aggiornaMail()" required>
@@ -88,8 +88,6 @@
                     <option value="PESARO">PESARO</option>
                 </select>
             </div>
-            
-            <input type="hidden" id="repartoBianco" name="repartoBianco">
             
             <div class="section-title">Reparto Bianco</div>
             
@@ -151,37 +149,9 @@
     </footer>
 
     <script>
+        // Funzione per aggiornare l'email destinazione in base al punto vendita selezionato
         function aggiornaMail() {
-            const selezione = document.getElementById("puntoVendita").value;
-            if (!selezione) return; // Non procedere se non è stato selezionato un punto vendita
-            
-            const reparto = document.getElementById("repartoBianco");
-            reparto.value = selezione;
-            
-            // Crea l'oggetto mailto con tutte le informazioni necessarie
-            let mailto = "mailto:d.pavoni@dml-italia.com";
-            
-            // Aggiungi l'oggetto
-            mailto += "?subject=" + encodeURIComponent("Report Punto Vendita " + selezione);
-            
-            // Inizia il corpo dell'email con la formattazione richiesta
-            let body = "<strong>REPARTO BIANCO: </strong>" + selezione + "<br><br>";
-            body += "<strong>BIANCO DELTA MESE FATT: </strong>€ " + document.getElementById("biancoDeltaMeseFatt").value + "<br><br>";
-            body += "<strong>DELTA MESE PR. MEDIO: </strong>€ " + document.getElementById("biancoDeltaMesePrMedio").value + "<br><br>";
-            body += "<strong>CLIMA DELTA MESE FATT: </strong>€ " + document.getElementById("climaDeltaMeseFatt").value + "<br><br>";
-            body += "<strong>FOCUS IERI:</strong><br><br>";
-            body += "<ul>";
-            body += "<li><strong>AEG BIANCO: </strong>" + document.getElementById("focusAegBianco").value + "</li>";
-            body += "<li><strong>FUORI GRIGLIA: </strong>" + document.getElementById("focusFuoriGriglia").value + "</li>";
-            body += "<li><strong>EKOS: </strong>" + document.getElementById("focusEkos").value + "</li>";
-            body += "<li><strong>SCHUKO: </strong>" + document.getElementById("focusSchuko").value + "</li>";
-            body += "<li><strong>ANTICALCARE: </strong>" + document.getElementById("focusAnticalcare").value + "</li>";
-            body += "<li><strong>KIT GIUNZIONE: </strong>" + document.getElementById("focusKitGiunzione").value + "</li>";
-            body += "</ul>";
-            
-            mailto += "&body=" + encodeURIComponent(body);
-            
-            // Aggiungi la mail del negozio selezionato come destinatario in CC
+            const puntoVendita = document.getElementById("puntoVendita").value;
             const emailMap = {
                 FANO: "trony.fano@dml-italia.com",
                 MONSANO: "trony.monsano@dml-italia.com",
@@ -190,20 +160,49 @@
                 CIVITANOVA: "trony.civitanova@dml-italia.com",
                 PESARO: "trony.pesaro@dml-italia.com"
             };
-            mailto += "&cc=" + emailMap[selezione];
-            
-            // Imposta il link mailto come destinazione del bottone
-            document.getElementById("reportForm").action = mailto;
+            document.getElementById("reportForm").action = "mailto:" + emailMap[puntoVendita];
         }
-        
-        // Aggiungi validazione al form prima dell'invio
-        document.getElementById("reportForm").addEventListener("submit", function(event) {
+
+        // Funzione per preparare il corpo dell'email in modo che sia leggibile
+        function preparaMailto() {
             const puntoVendita = document.getElementById("puntoVendita").value;
-            if (!puntoVendita) {
-                alert("Seleziona un punto vendita prima di inviare il report.");
-                event.preventDefault();
-                return false;
-            }
-            
-            // Verifica che i campi obbligatori siano compilati
-            const biancoDeltaMeseFatt = document.getElementById
+            const biancoDeltaMeseFatt = document.getElementById("biancoDeltaMeseFatt").value;
+            const biancoDeltaMesePrMedio = document.getElementById("biancoDeltaMesePrMedio").value;
+            const climaDeltaMeseFatt = document.getElementById("climaDeltaMeseFatt").value;
+            const focusAegBianco = document.getElementById("focusAegBianco").value;
+            const focusFuoriGriglia = document.getElementById("focusFuoriGriglia").value;
+            const focusEkos = document.getElementById("focusEkos").value;
+            const focusSchuko = document.getElementById("focusSchuko").value;
+            const focusAnticalcare = document.getElementById("focusAnticalcare").value;
+            const focusKitGiunzione = document.getElementById("focusKitGiunzione").value;
+
+            // Comporre il corpo dell'email
+            let emailBody = `
+            Punto Vendita: ${puntoVendita}
+
+            REPARTO BIANCO:
+            - BIANCO DELTA MESE FATT: €${biancoDeltaMeseFatt}
+            - DELTA MESE PR. MEDIO: €${biancoDeltaMesePrMedio}
+
+            CLIMA:
+            - CLIMA DELTA MESE FATT: €${climaDeltaMeseFatt}
+
+            FOCUS PRODOTTI:
+            - AEG BIANCO: ${focusAegBianco}
+            - FUORI GRIGLIA: ${focusFuoriGriglia}
+            - EKOS: ${focusEkos}
+            - SCHUKO: ${focusSchuko}
+            - ANTICALCARE: ${focusAnticalcare}
+            - KIT GIUNZIONE: ${focusKitGiunzione}`;
+
+            // Creare un link mailto con corpo e oggetto
+            const subject = `Report Punto Vendita ${puntoVendita}`;
+            const mailtoLink = `mailto:d.pavoni@dml-italia.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+
+            // Impostare il link mailto come destinazione del form
+            document.getElementById("reportForm").action = mailtoLink;
+            return true;
+        }
+    </script>
+</body>
+</html>
