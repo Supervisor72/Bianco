@@ -1,13 +1,4 @@
-            // Crea l'oggetto mailto con tutte le informazioni necessarie
-            let mailto = "mailto:d.pavoni@dml-italia.com";
-            
-            // Aggiungi l'oggetto
-            mailto += "?subject=" + encodeURIComponent("Report Punto Vendita " + selezione);
-            
-            // Inizia il corpo dell'email con la formattazione richiesta
-            let body = "REPARTO BIANCO: " + selezione + "\n\n";
-            body += "BIANCO DELTA MESE FATT: " + document.getElementById("biancoDeltaMeseFatt").value + "\n";
-            body += "DELTA<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -174,20 +165,19 @@
             mailto += "?subject=" + encodeURIComponent("Report Punto Vendita " + selezione);
             
             // Inizia il corpo dell'email con la formattazione richiesta
-            let body = "**REPARTO BIANCO " + selezione + "**\n\n";
-            body += "BIANCO DELTA MESE FATT  € " + document.getElementById("biancoDeltaMeseFatt").value + "\n\n";
-            body += "DELTA MESE PR. MEDIO    € " + document.getElementById("biancoDeltaMesePrMedio").value + "\n\n";
-            body += "CLIMA DELTA MESE FATT € " + document.getElementById("climaDeltaMeseFatt").value + "\n\n";
-            body += "FOCUS IERI   :\n\n";
-            
-            // Aggiungi i campi opzionali sempre (anche vuoti)
-            body += "ASCIUGATRICI \n";
-            body += "AEG BIANCO " + document.getElementById("focusAegBianco").value + "\n";
-            body += "FUORI GRIGLIA " + document.getElementById("focusFuoriGriglia").value + "\n";
-            body += "EKOS " + document.getElementById("focusEkos").value + "\n";
-            body += "SCHUKO " + document.getElementById("focusSchuko").value + "\n";
-            body += "ANTICALCARE " + document.getElementById("focusAnticalcare").value + "\n";
-            body += "KIT GIUNZIONE " + document.getElementById("focusKitGiunzione").value;
+            let body = "<strong>REPARTO BIANCO: </strong>" + selezione + "<br><br>";
+            body += "<strong>BIANCO DELTA MESE FATT: </strong>€ " + document.getElementById("biancoDeltaMeseFatt").value + "<br><br>";
+            body += "<strong>DELTA MESE PR. MEDIO: </strong>€ " + document.getElementById("biancoDeltaMesePrMedio").value + "<br><br>";
+            body += "<strong>CLIMA DELTA MESE FATT: </strong>€ " + document.getElementById("climaDeltaMeseFatt").value + "<br><br>";
+            body += "<strong>FOCUS IERI:</strong><br><br>";
+            body += "<ul>";
+            body += "<li><strong>AEG BIANCO: </strong>" + document.getElementById("focusAegBianco").value + "</li>";
+            body += "<li><strong>FUORI GRIGLIA: </strong>" + document.getElementById("focusFuoriGriglia").value + "</li>";
+            body += "<li><strong>EKOS: </strong>" + document.getElementById("focusEkos").value + "</li>";
+            body += "<li><strong>SCHUKO: </strong>" + document.getElementById("focusSchuko").value + "</li>";
+            body += "<li><strong>ANTICALCARE: </strong>" + document.getElementById("focusAnticalcare").value + "</li>";
+            body += "<li><strong>KIT GIUNZIONE: </strong>" + document.getElementById("focusKitGiunzione").value + "</li>";
+            body += "</ul>";
             
             mailto += "&body=" + encodeURIComponent(body);
             
@@ -204,8 +194,6 @@
             
             // Imposta il link mailto come destinazione del bottone
             document.getElementById("reportForm").action = mailto;
-            
-            console.log("Mailto URL creato:", mailto); // Per debug
         }
         
         // Aggiungi validazione al form prima dell'invio
@@ -218,28 +206,4 @@
             }
             
             // Verifica che i campi obbligatori siano compilati
-            const biancoDeltaMeseFatt = document.getElementById("biancoDeltaMeseFatt").value;
-            const biancoDeltaMesePrMedio = document.getElementById("biancoDeltaMesePrMedio").value;
-            const climaDeltaMeseFatt = document.getElementById("climaDeltaMeseFatt").value;
-            
-            if (!biancoDeltaMeseFatt || !biancoDeltaMesePrMedio || !climaDeltaMeseFatt) {
-                alert("Compila i primi tre campi obbligatori: BIANCO DELTA MESE FATT, DELTA MESE PR. MEDIO e CLIMA DELTA MESE FATT.");
-                event.preventDefault();
-                return false;
-            }
-            
-            // Aggiorna l'email una volta in più prima dell'invio per assicurarsi che tutti i campi siano inclusi
-            aggiornaMail();
-        });
-        
-        // Inizializza all'avvio della pagina
-        window.addEventListener("DOMContentLoaded", function() {
-            // Verifica se c'è già una selezione
-            const puntoVendita = document.getElementById("puntoVendita");
-            if (puntoVendita.value) {
-                aggiornaMail();
-            }
-        });
-    </script>
-</body>
-</html>
+            const biancoDeltaMeseFatt = document.getElementById
